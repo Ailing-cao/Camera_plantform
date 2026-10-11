@@ -1,0 +1,36 @@
+# USB 摄像头 V4L2 配置
+# 目标设备：Xitech USB Camera: USB 2M GS camera
+
+# 首选设备节点。如果该节点不存在，应用脚本会根据 USB 身份信息自动查找。
+DEVICE: /dev/video4 # 摄像头设备节点
+USB_VENDOR: Xitech # USB 厂商名称
+USB_MODEL_ID: 8076 # USB 产品型号 ID
+USB_SERIAL: 20211114 # USB 设备序列号
+
+# 出图分辨率和格式。1920x1080 为常用的 2MP 输出；若设备不支持可改为支持的组合。
+# 目标采集帧率。当前分辨率和像素格式必须支持该帧率。
+SET_VIDEO_FORMAT: 1 # 是否设置分辨率和出图格式，1=设置，0=跳过
+IMAGE_WIDTH: 320 # 出图宽度，单位：像素
+IMAGE_HEIGHT: 240 # 出图高度，单位：像素
+PIXEL_FORMAT: YUYV # 出图格式：MJPG（压缩）或 YUYV（未压缩）
+SET_FRAME_RATE: 1 # 是否设置帧率，1=设置，0=跳过
+FRAME_RATE_FPS: 30 # 出图帧率，单位：帧/秒
+
+# 图像亮度（数字增益）。范围 -64~64，硬件默认 4，越大越亮。
+# 注意高光余量：实测 64（最大）时约 21% 像素过曝、画面发白；4 时约 8%。
+BRIGHTNESS: 4 # 亮度，-64~64，默认 4
+
+# 防闪烁工频。中国大陆通常使用 50 Hz；当地电源为 60 Hz 时改为 60。
+# V4L2 对应值为：1=50 Hz，2=60 Hz。
+POWER_LINE_FREQUENCY_HZ: 0 # 防闪烁工频，可填写 0、50 或 60
+# 如果要以 120+ FPS 运行全局快门相机抓拍高速运动物体（需要极短曝光，如 1 ms），防频闪算法会强制拉长曝光导致运动模糊；此时应将该参数设为 0，并搭配高品质直流（DC）无闪烁补光灯。
+
+# 关闭自动白平衡，并使用固定色温（单位：开尔文）。
+DISABLE_AUTO_WHITE_BALANCE: 1 # 是否关闭自动白平衡，1=关闭，0=保留自动模式
+WHITE_BALANCE_TEMPERATURE_K: 4500 # 固定白平衡色温，单位：开尔文
+
+# V4L2 UVC 手动曝光。
+# EXPOSURE_TIME_US 会换算为通常的 100 微秒单位后写入曝光控件。
+# 10000 微秒 = 10 毫秒。
+EXPOSURE_AUTO_VALUE: 1 # 曝光模式，1 通常表示手动曝光
+EXPOSURE_TIME_US: 10000 # 曝光时长，单位：微秒，必须是 100 的整数倍

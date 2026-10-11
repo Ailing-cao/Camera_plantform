@@ -1,0 +1,15 @@
+# 拍摄程序配置
+# 相机的分辨率、格式、曝光等参数继续维护在下面的外部文件中。
+camera_config_file: "/home/ailing/Tools/Camera_sensor/config.yaml"
+camera_config_script: "/home/ailing/Tools/Camera_sensor/camera_config.sh"
+
+# 按 s 拍摄的图片保存目录
+save_directory: "/home/ailing/ballon/yolo_dataset/calib_dataset"
+
+# 输出文件名格式，例如 calib_20261005_173012_123.jpg
+filename_prefix: "calib"
+image_extension: ".jpg"
+jpeg_quality: 95
+
+# 预览启动后丢弃的帧数，给自动曝光/白平衡留出稳定时间
+warmup_frames: 10
